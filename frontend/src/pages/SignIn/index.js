@@ -3,12 +3,11 @@ import React from 'react';
 // import { Form, Input } from '@rocketseat/unform';
 // import { useDispatch, useSelector } from 'react-redux';
 import logo from '~/assets/logo.svg';
-import gym from '~/assets/GYMPOINT.svg';
-import { Container } from './styles';
+import gym from '~/assets/gympoint.svg';
 
 export default function SignIn() {
   return (
-    <Container>
+    <>
       <form>
         <img src={logo} alt="Logo" />
         <img
@@ -22,6 +21,6 @@ export default function SignIn() {
         <input type="password" placeholder="**************" />
         <button type="submit">Entrar</button>
       </form>
-    </Container>
+    </>
   );
 }

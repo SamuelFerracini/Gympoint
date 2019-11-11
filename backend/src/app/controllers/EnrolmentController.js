@@ -9,7 +9,13 @@ import EnrolmentInformation from '../jobs/EnrolmentInformation';
 class EnrolmentController {
   async index(req, res) {
     const enrolments = await Enrolment.findAll({
-      attributes: ['id', ['price', 'totalPrice']],
+      attributes: [
+        'id',
+        ['price', 'totalPrice'],
+        'start_date',
+        'end_date',
+        'active',
+      ],
       include: [
         {
           model: Student,

@@ -6,7 +6,8 @@ export const Container = styled.div`
 `;
 export const Content = styled.div`
   height: 64px;
-  max-width: 900px;
+  max-width: 1000px;
+  padding: 30px 20px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -15,7 +16,6 @@ export const Content = styled.div`
   nav {
     display: flex;
     align-items: center;
-
     img {
       margin-right: 20px;
       padding-right: 20px;
@@ -24,40 +24,41 @@ export const Content = styled.div`
 
     a {
       font-weight: bold;
-      color: #7159c1;
+      color: #999999;
+      margin-right: 20px;
+    }
+
+    a:hover:not(:active) {
+      color: red;
     }
   }
 
   aside {
     display: flex;
+    flex-direction: column;
     align-items: center;
+
+    span {
+      color: #666666;
+      font-weight: bold;
+      font-weight: 15px;
+    }
+
+    button {
+      background: none;
+      border: 0;
+      color: #de3b3b;
+    }
   }
 `;
-export const Profile = styled.div`
+
+export const Logo = styled.div`
   display: flex;
-  margin-left: 20px;
-  padding-left: 20px;
-  border-left: 1px solid #eee;
+  flex-direction: row;
+  border-right: 1px solid #dddddd;
 
-  div {
-    text-align: right;
-    margin-right: 10px;
-
-    strong {
-      display: block;
-      color: #333;
-    }
-
-    a {
-      display: block;
-      margin-top: 2px;
-      font-size: 12px;
-      color: #999;
-    }
-  }
   img {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
+    width: 120px;
+    margin-right: 20px;
   }
 `;
