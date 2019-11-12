@@ -6,8 +6,6 @@ export const Container = styled.div`
 `;
 export const Content = styled.div`
   height: 64px;
-  max-width: 1000px;
-  padding: 30px 20px;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -16,27 +14,21 @@ export const Content = styled.div`
   nav {
     display: flex;
     align-items: center;
-    img {
-      margin-right: 20px;
-      padding-right: 20px;
-      border-right: 1px solid #eee;
-    }
 
     a {
       font-weight: bold;
       color: #999999;
-      margin-right: 20px;
-    }
+      margin-left: 30px;
 
-    a:hover:not(:active) {
-      color: red;
+      &:hover:not(:active) {
+        color: red;
+      }
     }
   }
-
   aside {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-end;
 
     span {
       color: #666666;
@@ -56,9 +48,14 @@ export const Logo = styled.div`
   display: flex;
   flex-direction: row;
   border-right: 1px solid #dddddd;
+  padding-right: 30px;
 
   img {
-    width: 120px;
+    width: 80px;
+  }
+
+  img:first-of-type {
+    width: 55px;
     margin-right: 20px;
   }
 `;

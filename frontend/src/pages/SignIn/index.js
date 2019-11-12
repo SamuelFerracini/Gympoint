@@ -15,7 +15,7 @@ export default function SignIn() {
           alt="Gympoint"
           style={{ marginTop: 20, marginBottom: 30 }}
         />
-        <p>SEU EMAIL</p>
+        <p>SEU E-MAIL</p>
         <input type="email" placeholder="exemplo@email.com" />
         <p>SUA SENHA</p>
         <input type="password" placeholder="**************" />

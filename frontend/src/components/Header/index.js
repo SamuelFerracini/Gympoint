@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 import { Container, Content, Logo } from './styles';
 import logo from '~/assets/logo.svg';
 import gympoint from '~/assets/gympoint.svg';
@@ -10,11 +10,11 @@ export default function Header() {
   return (
     <Container>
       <Content>
-        <Logo>
-          <img src={logo} alt="" style={{ width: 70 }} />
-          <img src={gympoint} alt="" />
-        </Logo>
         <nav>
+          <Logo>
+            <img src={logo} alt="" />
+            <img src={gympoint} alt="" />
+          </Logo>
           <Link style={{ color: 'black' }} to="/">
             ALUNOS
           </Link>
