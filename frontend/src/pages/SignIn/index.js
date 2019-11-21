@@ -1,14 +1,22 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
-// import { Form, Input } from '@rocketseat/unform';
+import { Form, Input } from '@rocketseat/unform';
+import { useDispatch } from 'react-redux';
 // import { useDispatch, useSelector } from 'react-redux';
 import logo from '~/assets/logo.svg';
 import gym from '~/assets/gympoint.svg';
+import { signInRequest } from '~/store/modules/student/actions';
 
 export default function SignIn() {
+  const dispatch = useDispatch();
+  // const loading = useSelector(state => state.auth.loading);
+
+  function handleSubmit({ email, password }) {
+    dispatch(signInRequest(email, password));
+  }
   return (
     <>
-      <form>
+      <Form onSubmit={handleSubmit}>
         <img src={logo} alt="Logo" />
         <img
           src={gym}
@@ -16,11 +24,11 @@ export default function SignIn() {
           style={{ marginTop: 20, marginBottom: 30 }}
         />
         <p>SEU E-MAIL</p>
-        <input type="email" placeholder="exemplo@email.com" />
+        <Input name="email" type="email" placeholder="exemplo@email.com" />
         <p>SUA SENHA</p>
-        <input type="password" placeholder="**************" />
+        <Input name="password" type="password" placeholder="**************" />
         <button type="submit">Entrar</button>
-      </form>
+      </Form>
     </>
   );
 }

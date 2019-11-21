@@ -17,7 +17,8 @@ export const Content = styled.div`
 
     a {
       font-weight: bold;
-      color: #999999;
+      color: ${props => (props.active ? 'black' : '#999999')};
+
       margin-left: 30px;
 
       &:hover:not(:active) {

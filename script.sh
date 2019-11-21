@@ -1,0 +1,2 @@
+sudo su
+docker start 

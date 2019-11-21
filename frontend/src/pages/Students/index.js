@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '~/services/api';
 import { Container, Content, Head, Table } from './styles';
+import history from '~/services/history';
 
 export default function Students() {
   const [students, setStudents] = useState([]);
@@ -14,13 +15,19 @@ export default function Students() {
     loadStudents();
   }, [students]);
 
+  function handleRegister() {
+    history.push('/students/register');
+  }
+
   return (
     <Container>
       <Content>
         <Head>
           <h2>Gerenciando alunos</h2>
           <div>
-            <button type="button">CADASTRAR</button>
+            <button type="button" onClick={handleRegister}>
+              CADASTRAR
+            </button>
             <input type="text" placeholder="Buscar aluno" />
           </div>
         </Head>
@@ -35,7 +42,7 @@ export default function Students() {
             </thead>
             <tbody>
               {students.map(student => (
-                <tr>
+                <tr key={student.id}>
                   <td>{student.name}</td>
                   <td>{student.email}</td>
                   <td>{student.age}</td>

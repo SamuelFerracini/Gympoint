@@ -1,12 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-// import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Container, Content, Logo } from './styles';
 import logo from '~/assets/logo.svg';
 import gympoint from '~/assets/gympoint.svg';
+import { signOut } from '~/store/modules/student/actions';
 
 export default function Header() {
-  // const profile = useSelector(state => state.user.profile);
+  const dispatch = useDispatch();
+
+  function handleSignOut() {
+    dispatch(signOut());
+  }
+
+  const user = useSelector(state => state.user.admin);
   return (
     <Container>
       <Content>
@@ -15,7 +22,7 @@ export default function Header() {
             <img src={logo} alt="" />
             <img src={gympoint} alt="" />
           </Logo>
-          <Link style={{ color: 'black' }} to="/">
+          <Link active to="/students">
             ALUNOS
           </Link>
           <Link to="/">PLANOS</Link>
@@ -23,8 +30,10 @@ export default function Header() {
           <Link to="/">PEDIDOS DE AUXÍLIO</Link>
         </nav>
         <aside>
-          <span>Diego Fernandes</span>
-          <button type="button">Sair</button>
+          <span>{user.name}</span>
+          <button type="button" onClick={handleSignOut}>
+            Sair
+          </button>
         </aside>
       </Content>
     </Container>
