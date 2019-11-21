@@ -17,7 +17,7 @@ export const Content = styled.div`
 
     a {
       font-weight: bold;
-      color: ${props => (props.active ? 'black' : '#999999')};
+      /* color: ${({ active }) => active && 'black'}; */
 
       margin-left: 30px;
 

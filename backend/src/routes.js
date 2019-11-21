@@ -17,17 +17,15 @@ routes.post('/students/:id/help-orders', HelpOrderController.store);
 
 routes.post('/students/:id/checkins', CheckinController.store);
 
-routes.get('/students', StudentController.index);
-routes.post('/students', StudentController.store);
-
 routes.use(authMiddleware);
 
 routes.post('/users', UserController.store);
 routes.put('/users', UserController.update);
 
-// routes.get('/students', StudentController.index);
-// routes.post('/students', StudentController.store);
+routes.get('/students', StudentController.index);
+routes.post('/students', StudentController.store);
 routes.put('/students', StudentController.update);
+routes.delete('/students/:id', StudentController.destroy);
 
 routes.get('/plans', PlanController.index);
 routes.post('/plans', PlanController.store);

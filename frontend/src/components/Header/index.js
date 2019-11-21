@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Container, Content, Logo } from './styles';
 import logo from '~/assets/logo.svg';
 import gympoint from '~/assets/gympoint.svg';
-import { signOut } from '~/store/modules/student/actions';
+import { signOut } from '~/store/modules/auth/actions';
 
 export default function Header() {
   const dispatch = useDispatch();
@@ -22,7 +22,7 @@ export default function Header() {
             <img src={logo} alt="" />
             <img src={gympoint} alt="" />
           </Logo>
-          <Link active to="/students">
+          <Link current to="/students">
             ALUNOS
           </Link>
           <Link to="/">PLANOS</Link>

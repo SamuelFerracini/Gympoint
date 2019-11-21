@@ -87,6 +87,26 @@ class StudentController {
       height,
     });
   }
+
+  async destroy(req, res) {
+    const student = await Student.findByPk(req.params.id);
+
+    if (!student) {
+      return res.status(401).json({
+        error: 'Plan does not exists.',
+      });
+    }
+
+    console.log(student);
+
+    await Student.destroy({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    return res.json();
+  }
 }
 
 export default new StudentController();

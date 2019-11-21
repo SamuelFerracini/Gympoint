@@ -1,15 +1,14 @@
 import React from 'react';
 // import { Link } from 'react-router-dom';
 import { Form, Input } from '@rocketseat/unform';
-import { useDispatch } from 'react-redux';
-// import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import logo from '~/assets/logo.svg';
 import gym from '~/assets/gympoint.svg';
-import { signInRequest } from '~/store/modules/student/actions';
+import { signInRequest } from '~/store/modules/auth/actions';
 
 export default function SignIn() {
   const dispatch = useDispatch();
-  // const loading = useSelector(state => state.auth.loading);
+  const loading = useSelector(state => state.auth.loading);
 
   function handleSubmit({ email, password }) {
     dispatch(signInRequest(email, password));

@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import * as Yup from 'yup';
 import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
-import api from '~/services/api';
 import { Container, Content, Head, FormSpace, Input } from './styles';
 import history from '~/services/history';
-import {} from '~/store/modules/student/actions';
+import { registerStudentRequest } from '~/store/modules/student/actions';
 
 export default function RegisterStudent() {
+  const dispatch = useDispatch();
+
   const schema = Yup.object().shape({
     name: Yup.string().required('O nome é obrigatório'),
     email: Yup.string()
@@ -24,7 +25,8 @@ export default function RegisterStudent() {
   });
 
   async function handleSubmit(data) {
-    const response = await api.post('students', data);
+    // const response = await api.post('students', data);
+    dispatch(registerStudentRequest(data));
   }
   function handleReturn() {
     history.push('/students');

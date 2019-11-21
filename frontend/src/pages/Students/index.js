@@ -19,6 +19,10 @@ export default function Students() {
     history.push('/students/register');
   }
 
+  async function handleDeleteStudent(id) {
+    const response = await api.delete(`students/${id}`);
+  }
+
   return (
     <Container>
       <Content>
@@ -48,7 +52,12 @@ export default function Students() {
                   <td>{student.age}</td>
                   <td>
                     <button type="button">editar</button>
-                    <button type="button">apagar</button>
+                    <button
+                      type="button"
+                      onClick={() => handleDeleteStudent(student.id)}
+                    >
+                      apagar
+                    </button>
                   </td>
                 </tr>
               ))}
