@@ -1,13 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
-import { Container, Content, Head, FormSpace, Input } from './styles';
+import {
+  Container,
+  Content,
+  Head,
+  FormSpace,
+  Input,
+  Button,
+} from '~/styles/global';
 import history from '~/services/history';
-import { registerStudentRequest } from '~/store/modules/student/actions';
+import { modifyStudentRequest } from '~/store/modules/student/actions';
+import api from '~/services/api';
 
-export default function RegisterStudent() {
+export default function Modify({ match }) {
+  const [student, setStudent] = useState({});
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    async function loadStudent() {
+      const { id } = match.params;
+      const { data } = await api.get(`students/${id}`);
+      setStudent(data);
+    }
+
+    loadStudent();
+  }, [match.params]);
 
   const schema = Yup.object().shape({
     name: Yup.string().required('O nome é obrigatório'),
@@ -25,8 +44,8 @@ export default function RegisterStudent() {
   });
 
   async function handleSubmit(data) {
-    // const response = await api.post('students', data);
-    dispatch(registerStudentRequest(data));
+    data.id = student.id;
+    dispatch(modifyStudentRequest(data));
   }
   function handleReturn() {
     history.push('/students');
@@ -35,14 +54,16 @@ export default function RegisterStudent() {
   return (
     <Container>
       <Content>
-        <Form schema={schema} onSubmit={handleSubmit}>
+        <Form initialData={student} schema={schema} onSubmit={handleSubmit}>
           <Head>
-            <h2>Cadastro de aluno</h2>
+            <h2>Edição de Aluno</h2>
             <div>
-              <button type="button" onClick={handleReturn}>
+              <Button type="button" onClick={handleReturn} color="#ccc">
                 VOLTAR
-              </button>
-              <button type="submit">SALVAR</button>
+              </Button>
+              <Button type="submit" color="#ee4d64">
+                SALVAR
+              </Button>
             </div>
           </Head>
           <FormSpace>

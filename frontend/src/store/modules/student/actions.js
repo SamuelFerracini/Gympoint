@@ -4,3 +4,10 @@ export function registerStudentRequest(data) {
     payload: { data },
   };
 }
+
+export function modifyStudentRequest(data) {
+  return {
+    type: '@student/MODIFY_STUDENT_REQUEST',
+    payload: { data },
+  };
+}

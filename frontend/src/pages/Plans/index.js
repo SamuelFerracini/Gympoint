@@ -3,67 +3,69 @@ import api from '~/services/api';
 import { Container, Content, Head, Table, Button } from '~/styles/global';
 import history from '~/services/history';
 
-export default function Students() {
-  const [students, setStudents] = useState([]);
+export default function Plans() {
+  const [plans, setPlans] = useState([]);
 
   useEffect(() => {
-    async function loadStudents() {
-      const { data } = await api.get('students');
-      setStudents(data);
+    async function loadPlans() {
+      const { data } = await api.get('plans');
+      setPlans(data);
     }
 
-    loadStudents();
-  }, [students]);
+    loadPlans();
+  }, []);
 
   function handleRegister() {
-    history.push('/students/register');
+    history.push('/plans/register');
   }
 
-  async function handleDeleteStudent(id) {
-    await api.delete(`students/${id}`);
+  async function handleDeletePlan(id) {
+    await api.delete(`plans/${id}`);
   }
 
-  async function handleModifyStudent(id) {
-    history.push(`students/${id}`);
+  async function handleModifyPlan(id) {
+    history.push(`plans/${id}`);
   }
 
   return (
     <Container>
       <Content>
         <Head>
-          <h2>Gerenciando alunos</h2>
+          <h2>Gerenciando planos</h2>
           <div>
             <Button type="button" onClick={handleRegister} color="#ee4d64">
               CADASTRAR
             </Button>
-            <input type="text" placeholder="Buscar aluno" />
+            <input type="text" placeholder="Buscar plano" />
           </div>
         </Head>
         <Table>
           <table>
             <thead>
               <tr>
-                <th>NOME</th>
-                <th>E-MAIL</th>
-                <th>IDADE</th>
+                <th>TÍTULO</th>
+                <th>DURAÇÃO</th>
+                <th>VALOR p/ MÊS</th>
               </tr>
             </thead>
             <tbody>
-              {students.map(student => (
-                <tr key={student.id}>
-                  <td>{student.name}</td>
-                  <td>{student.email}</td>
-                  <td>{student.age}</td>
+              {plans.map(plan => (
+                <tr key={plan.id}>
+                  <td>{plan.title}</td>
+                  <td>
+                    {plan.duration === 1 ? '1 Mês' : `${plan.duration} meses`}
+                  </td>
+                  <td>R$ {plan.price}</td>
                   <td>
                     <button
                       type="button"
-                      onClick={() => handleModifyStudent(student.id)}
+                      onClick={() => handleModifyPlan(plan.id)}
                     >
                       editar
                     </button>
                     <button
                       type="button"
-                      onClick={() => handleDeleteStudent(student.id)}
+                      onClick={() => handleDeletePlan(plan.id)}
                     >
                       apagar
                     </button>

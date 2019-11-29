@@ -4,14 +4,14 @@ const INITIAL_STATE = {
   loading: false,
 };
 
-export default function student(state = INITIAL_STATE, action) {
+export default function plan(state = INITIAL_STATE, action) {
   return produce(state, draft => {
     switch (action.type) {
-      case '@student/REGISTER_STUDENT_REQUEST':
+      case '@plan/REGISTER_PLAN_REQUEST':
         draft.loading = true;
         break;
 
-      case '@student/MODIFY_STUDENT_REQUEST':
+      case '@plan/MODIFY_PLAN_REQUEST':
         draft.loading = true;
         break;
       default:

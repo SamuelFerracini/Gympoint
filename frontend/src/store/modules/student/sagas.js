@@ -18,6 +18,23 @@ export function* registerStudent({ payload }) {
   }
 }
 
+export function* modifyStudent({ payload }) {
+  try {
+    const { id, name, email, age, height, weight } = payload.data;
+    yield call(api.put, `students/${id}`, {
+      name,
+      email,
+      age,
+      height,
+      weight,
+    });
+    toast.success('Estudante alterado com sucesso');
+  } catch (error) {
+    toast.error('Falha ao atualizar o estudante');
+  }
+}
+
 export default all([
   takeLatest('@student/REGISTER_STUDENT_REQUEST', registerStudent),
+  takeLatest('@student/MODIFY_STUDENT_REQUEST', modifyStudent),
 ]);
