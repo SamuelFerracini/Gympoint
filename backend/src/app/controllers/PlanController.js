@@ -67,6 +67,18 @@ class PlanController {
     });
   }
 
+  async show(req, res) {
+    const { id } = req.params;
+    const plan = await Plan.findOne({
+      where: { id },
+    });
+    if (!plan) {
+      return res.status(400).json({ error: 'Plan does not exists.' });
+    }
+
+    return res.json(plan);
+  }
+
   async destroy(req, res) {
     const plan = await Plan.findByPk(req.params.id);
 
