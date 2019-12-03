@@ -28,7 +28,7 @@ export function* modifyStudent({ payload }) {
       height,
       weight,
     });
-    toast.success('Estudante alterado com sucesso');
+    toast.success('Estudante atualizado com sucesso');
   } catch (error) {
     toast.error('Falha ao atualizar o estudante');
   }

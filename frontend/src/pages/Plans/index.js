@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import api from '~/services/api';
-import { Container, Content, Head, Table, Button } from '~/styles/global';
+import { Head, Table, Button, Center } from '~/styles/global';
 import history from '~/services/history';
 
 export default function Plans() {
@@ -20,7 +21,15 @@ export default function Plans() {
   }
 
   async function handleDeletePlan(id) {
-    await api.delete(`plans/${id}`);
+    try {
+      const result = window.confirm('Certeza que deseja deletar?');
+      if (result) {
+        const { data } = await api.delete(`plans/${id}`);
+        setPlans(data);
+      }
+    } catch (e) {
+      toast.error(e.response.data.error);
+    }
   }
 
   async function handleModifyPlan(id) {
@@ -28,18 +37,17 @@ export default function Plans() {
   }
 
   return (
-    <Container>
-      <Content>
-        <Head>
-          <h2>Gerenciando planos</h2>
-          <div>
-            <Button type="button" onClick={handleRegister} color="#ee4d64">
-              CADASTRAR
-            </Button>
-            <input type="text" placeholder="Buscar plano" />
-          </div>
-        </Head>
-        <Table>
+    <>
+      <Head>
+        <h2>Gerenciando planos</h2>
+        <div>
+          <Button type="button" onClick={handleRegister} color="#ee4d64">
+            CADASTRAR
+          </Button>
+        </div>
+      </Head>
+      <Table>
+        {plans.length > 0 ? (
           <table>
             <thead>
               <tr>
@@ -74,8 +82,12 @@ export default function Plans() {
               ))}
             </tbody>
           </table>
-        </Table>
-      </Content>
-    </Container>
+        ) : (
+          <Center>
+            <h1>Não há planos ? Cadastre C:</h1>
+          </Center>
+        )}
+      </Table>
+    </>
   );
 }

@@ -1,27 +1,32 @@
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
-import { Form } from '@rocketseat/unform';
+// import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
 import {
   Container,
   Content,
   Head,
-  FormSpace,
   Input,
   Button,
+  Formcontent,
 } from '~/styles/global';
 import history from '~/services/history';
-import { modifyStudentRequest } from '~/store/modules/student/actions';
 import api from '~/services/api';
+import { modifyPlanRequest } from '~/store/modules/plan/actions';
 
 export default function Plan({ match }) {
   const [plan, setPlan] = useState({});
+  const [duration, setDuration] = useState({});
+  const [price, setPrice] = useState({});
   const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadPlan() {
       const { id } = match.params;
       const { data } = await api.get(`plans/${id}`);
+      const { price, duration } = data;
+      setPrice(price);
+      setDuration(duration);
       setPlan(data);
     }
 
@@ -42,7 +47,7 @@ export default function Plan({ match }) {
 
   async function handleSubmit(data) {
     data.id = plan.id;
-    dispatch(modifyStudentRequest(data));
+    dispatch(modifyPlanRequest(data));
   }
   function handleReturn() {
     history.push('/plans');
@@ -50,53 +55,103 @@ export default function Plan({ match }) {
 
   return (
     <Container>
-      <Content>
-        <Form initialData={plan} schema={schema} onSubmit={handleSubmit}>
-          <Head>
-            <h2>Cadastro de plano</h2>
-            <div>
-              <Button type="button" onClick={handleReturn} color="#ccc">
-                VOLTAR
-              </Button>
-              <Button type="submit" color="#ee4d64">
-                SALVAR
-              </Button>
-            </div>
-          </Head>
-          <FormSpace>
-            <span>TÍTULO DO PLANO</span>
+      <Formcontent initialData={plan} schema={schema} onSubmit={handleSubmit}>
+        <Head>
+          <h1>Cadastro de plano</h1>
+          <div>
+            <Button type="button" onClick={handleReturn} color="#ccc">
+              VOLTAR
+            </Button>
+            <Button type="submit" color="#ee4d64">
+              SALVAR
+            </Button>
+          </div>
+        </Head>
+        <Content>
+          <span>
+            TÍTULO DO PLANO
             <Input name="title" />
-            <div>
-              <div>
-                <span>DURAÇÃO (em meses)</span>
-                <Input
-                  name="duration"
-                  type="number"
-                  // onChange={e => setDuration(e.target.value)}
-                />
-              </div>
-              <div>
-                <span>PREÇO MENSAL</span>
-                <Input
-                  name="price"
-                  type="number"
-                  // onChange={e => setPrice(e.target.value)}
-                />
-              </div>
-              <div>
-                <span>PREÇO TOTAL</span>
-                <Input
-                  name="totalPrice"
-                  value={plan.price * plan.duration}
-                  type="number"
-                  readOnly
-                  disabled
-                />
-              </div>
-            </div>
-          </FormSpace>
-        </Form>
-      </Content>
+          </span>
+          <div>
+            <span>
+              DURAÇÃO (em meses)
+              <Input
+                name="duration"
+                type="number"
+                onChange={e => setDuration(e.target.value)}
+              />
+            </span>
+            <span>
+              PREÇO MENSAL
+              <Input
+                name="price"
+                type="number"
+                onChange={e => setPrice(e.target.value)}
+              />
+            </span>
+            <span>
+              PREÇO TOTAL
+              <Input
+                name="totalPrice"
+                value={price * duration}
+                type="number"
+                readOnly
+                disabled
+              />
+            </span>
+          </div>
+        </Content>
+      </Formcontent>
     </Container>
   );
+
+  // return (
+  //   <Container>
+  //     <Form initialData={plan} schema={schema} onSubmit={handleSubmit}>
+  //       <Head>
+  //         <h1>Cadastro de plano</h1>
+  //         <div>
+  //           <Button type="button" onClick={handleReturn} color="#ccc">
+  //             VOLTAR
+  //           </Button>
+  //           <Button type="submit" color="#ee4d64">
+  //             SALVAR
+  //           </Button>
+  //         </div>
+  //       </Head>
+  //       <Formcontent>
+  //         <span>TÍTULO DO PLANO</span>
+  //         <Input name="title" />
+  //         <div>
+  //           <div>
+  //             <span>DURAÇÃO (em meses)</span>
+  //             <Input
+  //               name="duration"
+  //               type="number"
+  //               onChange={e => setDuration(e.target.value)}
+  //             />
+  //           </div>
+  //           <div>
+  //             <span>PREÇO MENSAL</span>
+  //             <Input
+  //               name="price"
+  //               type="number"
+  //               onChange={e => setPrice(e.target.value)}
+  //             />
+  //           </div>
+  //           <div>
+  //             <span>PREÇO TOTAL</span>
+  //             <Input
+  //               name="totalPrice"
+  //               value={price * duration}
+  //               type="number"
+  //               readOnly
+  //               disabled
+  //             />
+  //           </div>
+  //         </div>
+  //       </Formcontent>
+  //     </Form>
+  //   </Container>
+  // );
 }

@@ -22,9 +22,7 @@ export default function Header() {
             <img src={logo} alt="" />
             <img src={gympoint} alt="" />
           </Logo>
-          <Link current to="/students">
-            ALUNOS
-          </Link>
+          <Link to="/students">ALUNOS</Link>
           <Link to="/plans">PLANOS</Link>
           <Link to="/enrolments">MATRÍCULAS</Link>
           <Link to="/">PEDIDOS DE AUXÍLIO</Link>

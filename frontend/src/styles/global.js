@@ -45,11 +45,31 @@ button{
 
 export const Container = styled.div`
   padding: 30px 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  margin-bottom: 30px;
+  @media (max-width: 768px) {
+    overflow-x: auto;
+    align-items: flex-start;
+    &::-webkit-scrollbar {
+      height: 8px;
+    }
+    &::-webkit-scrollbar * {
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.09) !important;
+    }
+  }
 `;
 
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
+  width: 900px;
 `;
 
 export const Head = styled.div`
@@ -69,32 +89,38 @@ export const Head = styled.div`
   }
 `;
 
-export const FormSpace = styled.div`
+export const Formcontent = styled.div`
   display: flex;
   flex-direction: column;
   background: #fff;
   padding: 30px;
+  justify-content: space-around;
+  width: 100%;
+  border-radius: 4px;
 
   span {
-    color: #444444;
-    font-weight: bold;
-    margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
+
+    p {
+      color: #444444;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    > span {
+      color: red;
+      font-weight: normal;
+      margin-top: -20px;
+      margin-bottom: 8px;
+    }
   }
 
-  div {
+  > div {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
     flex: 1;
-
-    div {
-      display: flex;
-      flex-direction: column;
-
-      input {
-        width: 270px;
-      }
-    }
+    justify-content: space-between;
   }
 `;
 
@@ -102,7 +128,8 @@ export const Input = styled(InputRocket)`
   height: 36px;
   border: 1px solid #ccc;
   padding: 0 15px;
-  background: #ffffff;
+  width: ${props => `${props.width}px`};
+  background: ${props => (props.readOnly ? '#f5f5f5' : '#ffffff')};
   border-radius: 4px;
   margin-bottom: 20px;
 `;
@@ -110,10 +137,16 @@ export const Input = styled(InputRocket)`
 export const Table = styled.div`
   background: #fff;
   padding: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100%;
 
   table {
     width: 100%;
     table-layout: fixed;
+    height: 100%;
+    border-collapse: collapse;
 
     th {
       text-align: left;
@@ -121,8 +154,16 @@ export const Table = styled.div`
 
     td {
       color: #666666;
-      margin: 16px 0;
+      margin: 10px 0;
       padding: 0;
+      font-size: 16px;
+      text-align: left;
+      max-width: 500px;
+      overflow: hidden;
+    }
+
+    tr:not(:last-of-type) {
+      border-bottom: 1px solid #eee;
     }
 
     td:last-child {
@@ -169,4 +210,8 @@ export const Button = styled.button`
   &:hover {
     background: ${props => darken(0.1, props.color)};
   }
+`;
+
+export const Center = styled.div`
+  text-align: center;
 `;

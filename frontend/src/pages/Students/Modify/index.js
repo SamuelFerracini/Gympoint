@@ -2,19 +2,13 @@ import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
-import {
-  Container,
-  Content,
-  Head,
-  FormSpace,
-  Input,
-  Button,
-} from '~/styles/global';
+import PropTypes from 'prop-types';
+import { Head, Formcontent, Input, Button } from '~/styles/global';
 import history from '~/services/history';
 import { modifyStudentRequest } from '~/store/modules/student/actions';
 import api from '~/services/api';
 
-export default function Modify({ match }) {
+export default function ModifyStudents({ match }) {
   const [student, setStudent] = useState({});
   const dispatch = useDispatch();
 
@@ -52,42 +46,52 @@ export default function Modify({ match }) {
   }
 
   return (
-    <Container>
-      <Content>
-        <Form initialData={student} schema={schema} onSubmit={handleSubmit}>
-          <Head>
-            <h2>Edição de Aluno</h2>
-            <div>
-              <Button type="button" onClick={handleReturn} color="#ccc">
-                VOLTAR
-              </Button>
-              <Button type="submit" color="#ee4d64">
-                SALVAR
-              </Button>
-            </div>
-          </Head>
-          <FormSpace>
-            <span>NOME COMPLETO</span>
+    <>
+      <Form initialData={student} schema={schema} onSubmit={handleSubmit}>
+        <Head>
+          <h2>Edição de Aluno</h2>
+          <div>
+            <Button type="button" onClick={handleReturn} color="#ccc">
+              VOLTAR
+            </Button>
+            <Button type="submit" color="#ee4d64">
+              SALVAR
+            </Button>
+          </div>
+        </Head>
+        <Formcontent>
+          <span>
+            <p>NOME COMPLETO</p>
             <Input name="name" placeholder="John Doe" />
-            <span>ENDEREÇO DE E-MAIL</span>
+          </span>
+          <span>
+            <p>ENDEREÇO DE E-MAIL</p>
             <Input name="email" type="email" placeholder="exemplo@email.com" />
-            <div>
-              <div>
-                <span>IDADE</span>
-                <Input name="age" type="number" />
-              </div>
-              <div>
-                <span>PESO (em kg)</span>
-                <Input name="weight" type="number" />
-              </div>
-              <div>
-                <span>ALTURA</span>
-                <Input name="height" type="number" />
-              </div>
-            </div>
-          </FormSpace>
-        </Form>
-      </Content>
-    </Container>
+          </span>
+          <div>
+            <span>
+              <p>IDADE</p>
+              <Input name="age" type="number" width={270} />
+            </span>
+            <span>
+              <p>PESO (em kg)</p>
+              <Input name="weight" type="number" width={270} />
+            </span>
+            <span>
+              <p>ALTURA</p>
+              <Input name="height" type="number" width={270} />
+            </span>
+          </div>
+        </Formcontent>
+      </Form>
+    </>
   );
 }
+
+ModifyStudents.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
+};

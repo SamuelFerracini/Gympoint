@@ -2,19 +2,13 @@ import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
 import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
-import {
-  Container,
-  Content,
-  Head,
-  FormSpace,
-  Input,
-  Button,
-} from '~/styles/global';
+import PropTypes from 'prop-types';
+import { Head, Formcontent, Input, Button } from '~/styles/global';
 import history from '~/services/history';
-import { modifyStudentRequest } from '~/store/modules/student/actions';
 import api from '~/services/api';
+import { modifyPlanRequest } from '~/store/modules/plan/actions';
 
-export default function Plan({ match }) {
+export default function ModifyPlan({ match }) {
   const [plan, setPlan] = useState({});
   const dispatch = useDispatch();
 
@@ -42,61 +36,74 @@ export default function Plan({ match }) {
 
   async function handleSubmit(data) {
     data.id = plan.id;
-    dispatch(modifyStudentRequest(data));
+    dispatch(modifyPlanRequest(data));
   }
   function handleReturn() {
     history.push('/plans');
   }
 
   return (
-    <Container>
-      <Content>
-        <Form initialData={plan} schema={schema} onSubmit={handleSubmit}>
-          <Head>
-            <h2>Cadastro de plano</h2>
-            <div>
-              <Button type="button" onClick={handleReturn} color="#ccc">
-                VOLTAR
-              </Button>
-              <Button type="submit" color="#ee4d64">
-                SALVAR
-              </Button>
-            </div>
-          </Head>
-          <FormSpace>
-            <span>TÍTULO DO PLANO</span>
+    <>
+      <Form initialData={plan} schema={schema} onSubmit={handleSubmit}>
+        <Head>
+          <h2>Edição de plano</h2>
+          <div>
+            <Button type="button" onClick={handleReturn} color="#ccc">
+              VOLTAR
+            </Button>
+            <Button type="submit" color="#ee4d64">
+              SALVAR
+            </Button>
+          </div>
+        </Head>
+        <Formcontent>
+          <span>
+            <p>TÍTULO DO PLANO</p>
             <Input name="title" />
-            <div>
-              <div>
-                <span>DURAÇÃO (em meses)</span>
-                <Input
-                  name="duration"
-                  type="number"
-                  // onChange={e => setDuration(e.target.value)}
-                />
-              </div>
-              <div>
-                <span>PREÇO MENSAL</span>
-                <Input
-                  name="price"
-                  type="number"
-                  // onChange={e => setPrice(e.target.value)}
-                />
-              </div>
-              <div>
-                <span>PREÇO TOTAL</span>
-                <Input
-                  name="totalPrice"
-                  value={plan.price * plan.duration}
-                  type="number"
-                  readOnly
-                  disabled
-                />
-              </div>
-            </div>
-          </FormSpace>
-        </Form>
-      </Content>
-    </Container>
+          </span>
+          <div>
+            <span>
+              <p>DURAÇÃO (em meses)</p>
+              <Input
+                name="duration"
+                type="number"
+                width={270}
+                // onChange={e => setDuration(e.target.value)}
+              />
+            </span>
+
+            <span>
+              <p>PREÇO MENSAL</p>
+              <Input
+                name="price"
+                type="number"
+                width={270}
+                // onChange={e => setPrice(e.target.value)}
+              />
+            </span>
+
+            <span>
+              <p>PREÇO TOTAL</p>
+              <Input
+                name="totalPrice"
+                value={plan.price * plan.duration}
+                type="number"
+                width={270}
+                readOnly
+                disabled
+              />
+            </span>
+          </div>
+        </Formcontent>
+      </Form>
+    </>
   );
 }
+
+ModifyPlan.propTypes = {
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      id: PropTypes.string,
+    }).isRequired,
+  }).isRequired,
+};

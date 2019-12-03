@@ -1,26 +1,39 @@
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 import api from '~/services/api';
-import { Container, Content, Head, Table, Button } from '~/styles/global';
+import { Head, Table, Button, Center } from '~/styles/global';
 import history from '~/services/history';
 
 export default function Students() {
   const [students, setStudents] = useState([]);
+  const [name, setName] = useState('');
 
   useEffect(() => {
     async function loadStudents() {
-      const { data } = await api.get('students');
+      const { data } = await api.get('students', {
+        params: {
+          name,
+        },
+      });
       setStudents(data);
     }
 
     loadStudents();
-  }, [students]);
+  }, [name]);
 
   function handleRegister() {
     history.push('/students/register');
   }
-
   async function handleDeleteStudent(id) {
-    await api.delete(`students/${id}`);
+    try {
+      const result = window.confirm('Certeza que deseja deletar?');
+      if (result) {
+        const { data } = await api.delete(`students/${id}`);
+        setStudents(data);
+      }
+    } catch (e) {
+      toast.error(e.response.data.error);
+    }
   }
 
   async function handleModifyStudent(id) {
@@ -28,18 +41,23 @@ export default function Students() {
   }
 
   return (
-    <Container>
-      <Content>
-        <Head>
-          <h2>Gerenciando alunos</h2>
-          <div>
-            <Button type="button" onClick={handleRegister} color="#ee4d64">
-              CADASTRAR
-            </Button>
-            <input type="text" placeholder="Buscar aluno" />
-          </div>
-        </Head>
-        <Table>
+    <>
+      <Head>
+        <h2>Gerenciando alunos</h2>
+        <div>
+          <Button type="button" onClick={handleRegister} color="#ee4d64">
+            CADASTRAR
+          </Button>
+          <input
+            type="text"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            placeholder="Buscar aluno"
+          />
+        </div>
+      </Head>
+      <Table>
+        {students.length > 0 ? (
           <table>
             <thead>
               <tr>
@@ -72,8 +90,12 @@ export default function Students() {
               ))}
             </tbody>
           </table>
-        </Table>
-      </Content>
-    </Container>
+        ) : (
+          <Center>
+            <h1>Não há alunos ? Cadastre C:</h1>
+          </Center>
+        )}
+      </Table>
+    </>
   );
 }

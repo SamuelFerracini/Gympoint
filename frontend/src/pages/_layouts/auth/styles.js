@@ -37,9 +37,15 @@ export const Content = styled.div`
       margin: 0 0 25px;
     }
 
+    span{
+      color: red;
+      margin-top: -25px;
+      margin-bottom: 15px;
+    }
+
     button {
-      width: 300px;
-height: 45px;
+    width: 300px;
+    height: 45px;
     background: #ee4d64;
     font-weight: bold;
     color: #fff;
