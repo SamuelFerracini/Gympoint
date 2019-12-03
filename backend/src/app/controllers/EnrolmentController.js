@@ -153,7 +153,29 @@ class EnrolmentController {
       },
     });
 
-    return res.json();
+    const enrolments = await Enrolment.findAll({
+      attributes: [
+        'id',
+        ['price', 'totalPrice'],
+        'start_date',
+        'end_date',
+        'active',
+      ],
+      include: [
+        {
+          model: Student,
+          as: 'students',
+          attributes: ['id', 'name', 'email'],
+        },
+        {
+          model: Plan,
+          as: 'plans',
+          attributes: ['id', 'title', 'duration', ['price', 'monthPrice']],
+        },
+      ],
+    });
+
+    return res.json(enrolments);
   }
 }
 

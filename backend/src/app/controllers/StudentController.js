@@ -5,10 +5,14 @@ import Student from '../models/Student';
 class StudentController {
   async index(req, res) {
     const { name } = req.query;
-    const student = await Student.findAll({
-      [Op.like]: name,
+    const students = await Student.findAll({
+      where: {
+        name: {
+          [Op.iLike]: `%${name}%`,
+        },
+      },
     });
-    return res.json(student);
+    return res.json(students);
   }
 
   async store(req, res) {
@@ -106,15 +110,17 @@ class StudentController {
       });
     }
 
-    console.log(student);
-
     await Student.destroy({
       where: {
         id: req.params.id,
       },
     });
 
-    return res.json();
+    const students = await Student.findAll({
+      attributes: ['id', 'name', 'email', 'age'],
+    });
+
+    return res.json(students);
   }
 }
 

@@ -3,9 +3,7 @@ import Plan from '../models/Plan';
 
 class PlanController {
   async index(req, res) {
-    const plans = await Plan.findAll({
-      attributes: ['id', 'title', 'duration', 'price'],
-    });
+    const plans = await Plan.findAll();
     return res.json(plans);
   }
 
@@ -40,8 +38,10 @@ class PlanController {
   }
 
   async update(req, res) {
+    const { id } = req.params;
+
     const schema = Yup.object().shape({
-      title: Yup.string().required(),
+      title: Yup.string(),
       duration: Yup.number()
         .integer()
         .positive(),
@@ -52,12 +52,12 @@ class PlanController {
       return res.status(400).json({ error: 'Validation fails.' });
     }
 
-    const plan = await Plan.findOne({ where: { title: req.body.title } });
+    const plan = await Plan.findOne({ where: { id } });
     if (!plan) {
       return res.status(401).json({ error: 'Plan not found.' });
     }
 
-    const { id, title, duration, price } = await plan.update(req.body);
+    const { title, duration, price } = await plan.update(req.body);
 
     return res.json({
       id,
@@ -94,7 +94,11 @@ class PlanController {
       },
     });
 
-    return res.json();
+    const plans = await Plan.findAll({
+      attributes: ['id', 'title', 'duration', 'price'],
+    });
+
+    return res.json(plans);
   }
 }
 
