@@ -39,6 +39,21 @@ export default function EnrolmentRegister() {
       .required('Data obrigatória'),
   });
 
+  async function loadStudents(inputValue) {
+    const response = await api
+      .get('students', {
+        params: { name: `${inputValue}` },
+      })
+      .then(r => r.data)
+      .then(r =>
+        r.map(student => ({
+          label: student.name,
+          value: student.id,
+        }))
+      );
+    return response;
+  }
+
   async function loadPlans() {
     const response = await api
       .get('plans')
@@ -88,21 +103,6 @@ export default function EnrolmentRegister() {
 
   async function handleSubmit(data) {
     dispatch(registerEnrolmentRequest(data));
-  }
-
-  async function loadStudents(inputValue) {
-    const response = await api
-      .get('students', {
-        params: { name: `${inputValue}` },
-      })
-      .then(r => r.data)
-      .then(r =>
-        r.map(student => ({
-          label: student.name,
-          value: student.id,
-        }))
-      );
-    return response;
   }
 
   function handleReturn() {

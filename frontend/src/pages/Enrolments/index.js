@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { format, parseISO } from 'date-fns';
 import { MdCheckCircle } from 'react-icons/md';
+import { toast } from 'react-toastify';
 import api from '~/services/api';
 import { Head, Table, Button } from '~/styles/global';
 import history from '~/services/history';
@@ -22,7 +23,11 @@ export default function Enrolments() {
   }
 
   async function handleDeleteEnrolment(id) {
-    await api.delete(`enrolments/${id}`);
+    try {
+      await api.delete(`enrolments/${id}`);
+    } catch (error) {
+      toast.error('Não é possivel deletar uma matrícula ativa');
+    }
   }
 
   async function handleModifyEnrolment(id) {

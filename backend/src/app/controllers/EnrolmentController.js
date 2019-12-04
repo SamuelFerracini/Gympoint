@@ -1,9 +1,10 @@
 import * as Yup from 'yup';
-import { addMonths, parseISO, isBefore } from 'date-fns';
+import { addMonths, parseISO, isBefore, isAfter } from 'date-fns';
 import Enrolment from '../models/Enrolment';
 import Plan from '../models/Plan';
 import Student from '../models/Student';
 import Queue from '../../lib/Queue';
+
 import EnrolmentInformation from '../jobs/EnrolmentInformation';
 
 class EnrolmentController {
@@ -145,6 +146,12 @@ class EnrolmentController {
       return res.status(401).json({
         error: 'Enrolment does not exists.',
       });
+    }
+
+    const { start_date } = enrolment;
+
+    if (isAfter(new Date(), start_date)) {
+      return res.status(400).json({ error: 'Enrolment is active.' });
     }
 
     await Enrolment.destroy({
