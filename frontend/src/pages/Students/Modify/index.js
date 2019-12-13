@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Head, Formcontent, Input, Button } from '~/styles/global';
+import { Head, Formcontent, Input, Button, Content } from '~/styles/global';
 import history from '~/services/history';
 import { modifyStudentRequest } from '~/store/modules/student/actions';
 import api from '~/services/api';
@@ -46,7 +46,7 @@ export default function ModifyStudents({ match }) {
   }
 
   return (
-    <>
+    <Content>
       <Form initialData={student} schema={schema} onSubmit={handleSubmit}>
         <Head>
           <h2>Edição de Aluno</h2>
@@ -71,20 +71,20 @@ export default function ModifyStudents({ match }) {
           <div>
             <span>
               <p>IDADE</p>
-              <Input name="age" type="number" width={270} />
+              <Input name="age" type="text" width="270px" />
             </span>
             <span>
               <p>PESO (em kg)</p>
-              <Input name="weight" type="number" width={270} />
+              <Input name="weight" type="text" width="270px" />
             </span>
             <span>
-              <p>ALTURA</p>
-              <Input name="height" type="number" width={270} />
+              <p>ALTURA (em cm)</p>
+              <Input name="height" type="text" width="270px" />
             </span>
           </div>
         </Formcontent>
       </Form>
-    </>
+    </Content>
   );
 }
 

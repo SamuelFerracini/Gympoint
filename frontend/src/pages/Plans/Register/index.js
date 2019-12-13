@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as Yup from 'yup';
 import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
-import { Head, Formcontent, Input, Button } from '~/styles/global';
+import { Head, Formcontent, Input, Button, Content } from '~/styles/global';
 import history from '~/services/history';
 import { registerPlanRequest } from '~/store/modules/plan/actions';
 
@@ -34,7 +34,7 @@ export default function RegisterPlan() {
   }
 
   return (
-    <>
+    <Content>
       <Form schema={schema} onSubmit={handleSubmit}>
         <Head>
           <h2>Cadastro de plano</h2>
@@ -58,31 +58,32 @@ export default function RegisterPlan() {
               <Input
                 name="duration"
                 onChange={e => setDuration(e.target.value)}
-                width={270}
+                width="270px"
               />
             </span>
             <span>
               <p>PREÇO MENSAL</p>
               <Input
                 name="price"
+                type="text"
                 onChange={e => setPrice(e.target.value)}
-                width={270}
+                width="270px"
               />
             </span>
             <span>
               <p>PREÇO TOTAL</p>
               <Input
                 name="totalPrice"
-                value={price * duration}
-                type="number"
+                value={`R$${price * duration}`}
+                type="text"
                 readOnly
                 disabled
-                width={270}
+                width="270px"
               />
             </span>
           </div>
         </Formcontent>
       </Form>
-    </>
+    </Content>
   );
 }

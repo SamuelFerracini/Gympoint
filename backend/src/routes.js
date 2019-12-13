@@ -23,26 +23,27 @@ routes.post('/users', UserController.store);
 routes.put('/users', UserController.update);
 
 routes.get('/students', StudentController.index);
-routes.get('/students/:id', StudentController.show);
 routes.post('/students', StudentController.store);
 routes.put('/students/:id', StudentController.update);
+routes.get('/students/:id', StudentController.show);
 routes.delete('/students/:id', StudentController.destroy);
 
 routes.get('/plans', PlanController.index);
-routes.get('/plans/:id', PlanController.show);
 routes.post('/plans', PlanController.store);
 routes.put('/plans/:id', PlanController.update);
+routes.get('/plans/:id', PlanController.show);
 routes.delete('/plans/:id', PlanController.destroy);
 
 routes.get('/enrolments', EnrolmentController.index);
 routes.post('/enrolments', EnrolmentController.store);
-routes.put('/enrolments', EnrolmentController.update);
+routes.put('/enrolments/:id', EnrolmentController.update);
+routes.get('/enrolments/:id', EnrolmentController.show);
 routes.delete('/enrolments/:id', EnrolmentController.destroy);
 
 routes.get('/students/:id/checkins', CheckinController.index);
 
 routes.get('/help-orders', HelpOrderController.index);
-routes.get('/students/:id/help-orders', HelpOrderController.show);
+// routes.get('/students/:id/help-orders', HelpOrderController.show);
 routes.post('/help-orders/:id/answer', AnswerOrderController.store);
 
 export default routes;

@@ -1,14 +1,14 @@
-import HelpOrder from '../schemas/HelpOrder';
+import HelpOrder from '../models/HelpOrder';
 import Queue from '../../lib/Queue';
 import OrderAnswered from '../jobs/OrderAnswered';
 import Student from '../models/Student';
 
 class AnswerOrderController {
   async store(req, res) {
-    const { id: _id } = req.params;
+    const { id } = req.params;
 
-    const helpOrder = await HelpOrder.findById({
-      _id,
+    const helpOrder = await HelpOrder.findOne({
+      id,
     });
 
     if (!helpOrder) {

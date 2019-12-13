@@ -1,12 +1,11 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Yup from 'yup';
 import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { format, addMonths } from 'date-fns';
+import { format, addMonths, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
-import { formatPrice } from '~/util/format';
-import { Head, Formcontent, Input, Button } from '~/styles/global';
+import { Head, Formcontent, Input, Button, Content } from '~/styles/global';
 import history from '~/services/history';
 import { modifyEnrolmentRequest } from '~/store/modules/enrolment/actions';
 import api from '~/services/api';
@@ -18,10 +17,12 @@ import Select from '~/components/Select';
 export default function ModifyEnrolment({ match }) {
   const dispatch = useDispatch();
   const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState('dd-mm-aaaa');
   const [plans, setPlans] = useState([]);
   const [plan, setPlan] = useState({});
   const [enrolment, setEnrolment] = useState({});
-  const [initialData, setInitialData] = useState({});
+  const [totalPrice, setTotalPrice] = useState({});
+  const [student, setStudent] = useState();
 
   const schema = Yup.object().shape({
     student: Yup.object()
@@ -48,9 +49,9 @@ export default function ModifyEnrolment({ match }) {
       })
       .then(r => r.data)
       .then(r =>
-        r.map(student => ({
-          label: student.name,
-          value: student.id,
+        r.map(st => ({
+          label: st.name,
+          value: st.id,
         }))
       );
     return response;
@@ -72,17 +73,35 @@ export default function ModifyEnrolment({ match }) {
     setPlans(response);
   }
 
-  async function loadEnrolment() {
-    const { id } = match.params;
-    const { data } = await api.get(`enrolment/${id}`);
+  async function loadInitialData() {
+    const { data } = await api.get(`enrolments/${match.params.id}`);
+
     setEnrolment(data);
+
+    setStudent({
+      label: data.students.name,
+      value: data.students.id,
+    });
+
+    setPlan({
+      label: data.plans.title,
+      value: data.plans.id,
+    });
+
+    setTotalPrice(data.totalPrice);
+    setStartDate(parseISO(data.start_date), `dd'/'MM'/'yyyy`);
+    setEndDate(format(parseISO(data.end_date), `dd'/'MM'/'yyyy`));
   }
 
-  const end_date = useMemo(() => {
-    if (!plan.duration) {
-      return '';
-    }
+  useEffect(() => {
+    loadInitialData();
+    loadPlans();
+  }, []); // eslint-disable-line
 
+  useEffect(() => {
+    if (!plan.duration) {
+      return;
+    }
     const { duration } = plan;
     const formattedDate = format(
       addMonths(startDate, duration),
@@ -91,26 +110,16 @@ export default function ModifyEnrolment({ match }) {
         locale: pt,
       }
     );
-    return formattedDate;
+
+    setEndDate(formattedDate);
   }, [plan, startDate]);
 
-  const totalPrice = useMemo(() => {
-    if (!plan.price) return '';
-
-    return formatPrice(Number(plan.duration) * Number(plan.price));
-  }, [plan.duration, plan.price]);
-
-  useEffect(() => {
-    loadEnrolment();
-    loadPlans();
-
-    setInitialData({
-      end_date,
-      totalPrice,
-    });
-  }, [end_date, startDate, totalPrice]);// eslint-disable-line
-
-  async function handleSubmit(data) {
+  async function handleSubmit() {
+    const data = {
+      plan_id: plan.value,
+      enrolment_id: enrolment.id,
+      start_date: startDate,
+    };
     dispatch(modifyEnrolmentRequest(data));
   }
 
@@ -119,10 +128,10 @@ export default function ModifyEnrolment({ match }) {
   }
 
   return (
-    <>
-      <Form schema={schema} onSubmit={handleSubmit} initialData={initialData}>
+    <Content>
+      <Form schema={schema} onSubmit={handleSubmit}>
         <Head>
-          <h2>Cadastro de matrícula</h2>
+          <h2>Edição de matrícula</h2>
           <div>
             <Button type="button" onClick={handleReturn} color="#ccc">
               VOLTAR
@@ -137,25 +146,36 @@ export default function ModifyEnrolment({ match }) {
             <p>ALUNO</p>
             <AsyncSelect
               name="student"
+              defaultValueSelected={student}
               loadOptions={loadStudents}
               label="ALUNO"
+              disabled
             />
           </span>
           <div>
             <span>
               <p>PLANO</p>
-              <Select name="plan" options={plans} setChange={setPlan} />
+              <Select
+                name="plan"
+                options={plans}
+                setChange={setPlan}
+                defaultValueSelected={plan}
+              />
             </span>
             <span>
               <p>DATA DE INÍCIO</p>
-              <DatePicker name="start_date" setChange={setStartDate} />
+              <DatePicker
+                name="start_date"
+                setChange={setStartDate}
+                selectedDate={startDate}
+              />
             </span>
             <span>
               <p>DATA DE TÉRMINO</p>
               <Input
                 name="end_date"
                 type="text"
-                value={end_date || 'dd-mm-aaaa'}
+                value={endDate}
                 readOnly
                 disabled
               />
@@ -165,7 +185,7 @@ export default function ModifyEnrolment({ match }) {
               <Input
                 name="totalPrice"
                 type="text"
-                value={`R$ ${plan.price * plan.duration || 0}`}
+                value={`R$ ${plan.price * plan.duration || totalPrice}`}
                 readOnly
                 disabled
               />
@@ -173,7 +193,7 @@ export default function ModifyEnrolment({ match }) {
           </div>
         </Formcontent>
       </Form>
-    </>
+    </Content>
   );
 }
 

@@ -20,15 +20,14 @@ export function* registerEnrolment({ payload }) {
 
 export function* modifyEnrolment({ payload }) {
   try {
-    const { id, title, price, duration } = payload.data;
-    yield call(api.put, `plans/${id}`, {
-      title,
-      price,
-      duration,
+    const { plan_id, enrolment_id, start_date } = payload.data;
+    yield call(api.put, `enrolments/${enrolment_id}`, {
+      plan_id,
+      start_date,
     });
-    toast.success('Plano alterado com sucesso');
+    toast.success('Matrículula atualizada com sucesso');
   } catch (error) {
-    toast.error('Falha ao atualizar o plano');
+    toast.error('Falha na atualização');
   }
 }
 

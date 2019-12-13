@@ -69,7 +69,7 @@ export const Container = styled.div`
 export const Content = styled.div`
   display: flex;
   flex-direction: column;
-  width: 900px;
+  width: ${props => props.width || '900px'};
 `;
 
 export const Head = styled.div`
@@ -78,9 +78,11 @@ export const Head = styled.div`
   justify-content: space-between;
   flex-direction: row;
   margin-bottom: 20px;
+  font-size: 16px;
 
   input {
     height: 36px;
+    width: 237px;
     border: 1px solid #ccc;
     padding: 0 15px;
     margin-left: 16px;
@@ -125,10 +127,10 @@ export const Formcontent = styled.div`
 `;
 
 export const Input = styled(InputRocket)`
-  height: 36px;
+  height: 45px;
   border: 1px solid #ccc;
   padding: 0 15px;
-  width: ${props => `${props.width}px`};
+  width: ${props => props.width};
   background: ${props => (props.readOnly ? '#f5f5f5' : '#ffffff')};
   border-radius: 4px;
   margin-bottom: 20px;
@@ -150,12 +152,13 @@ export const Table = styled.div`
 
     th {
       text-align: left;
+      font-size: 16px;
     }
 
     td {
       color: #666666;
       margin: 10px 0;
-      padding: 0;
+      padding: 8px 0;
       font-size: 16px;
       text-align: left;
       max-width: 500px;

@@ -2,7 +2,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
-import { Head, Formcontent, Input, Button } from '~/styles/global';
+import { Head, Formcontent, Input, Button, Content } from '~/styles/global';
 import history from '~/services/history';
 import { registerStudentRequest } from '~/store/modules/student/actions';
 
@@ -37,7 +37,7 @@ export default function RegisterStudents() {
   }
 
   return (
-    <>
+    <Content>
       <Form schema={schema} onSubmit={handleSubmit}>
         <Head>
           <h2>Cadastro de aluno</h2>
@@ -62,19 +62,19 @@ export default function RegisterStudents() {
           <div>
             <span>
               <p>IDADE</p>
-              <Input name="age" width={270} />
+              <Input name="age" width="270px" />
             </span>
             <span>
               <p>PESO (em kg)</p>
-              <Input name="weight" width={270} />
+              <Input name="weight" width="270px" />
             </span>
             <span>
-              <p>ALTURA</p>
-              <Input name="height" width={270} />
+              <p>ALTURA (em cm)</p>
+              <Input name="height" width="270px" />
             </span>
           </div>
         </Formcontent>
       </Form>
-    </>
+    </Content>
   );
 }

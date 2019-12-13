@@ -4,6 +4,8 @@ import Select from 'react-select';
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
+  height: 45px;
+
   .asyncSelectInput {
     padding: 0 10px;
     display: flex;
@@ -11,11 +13,12 @@ export const Container = styled.div`
     height: 45px;
     justify-content: center;
     input {
-      height: 35px;
+      height: 45px;
     }
   }
 `;
 
 export const SelectOptions = styled(Select)`
-  width: 170px;
+  width: 198px;
+  height: 45px;
 `;

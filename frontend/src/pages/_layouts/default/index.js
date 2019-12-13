@@ -8,9 +8,7 @@ export default function DefaultLayout({ children }) {
   return (
     <Wrapper>
       <Header />
-      <Container>
-        <Content>{children}</Content>
-      </Container>
+      <Container>{children}</Container>
     </Wrapper>
   );
 }

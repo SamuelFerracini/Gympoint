@@ -25,7 +25,7 @@ export default function Header() {
           <Link to="/students">ALUNOS</Link>
           <Link to="/plans">PLANOS</Link>
           <Link to="/enrolments">MATRÍCULAS</Link>
-          <Link to="/">PEDIDOS DE AUXÍLIO</Link>
+          <Link to="/help-orders">PEDIDOS DE AUXÍLIO</Link>
         </nav>
         <aside>
           <span>{user.name}</span>

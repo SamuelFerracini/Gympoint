@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
 import api from '~/services/api';
-import { Head, Table, Button, Center } from '~/styles/global';
+import { Head, Table, Button, Center, Content } from '~/styles/global';
 import history from '~/services/history';
 
 export default function Plans() {
   const [plans, setPlans] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function loadPlans() {
       const { data } = await api.get('plans');
       setPlans(data);
+      setLoading(false);
     }
 
     loadPlans();
@@ -37,7 +39,7 @@ export default function Plans() {
   }
 
   return (
-    <>
+    <Content>
       <Head>
         <h2>Gerenciando planos</h2>
         <div>
@@ -47,47 +49,57 @@ export default function Plans() {
         </div>
       </Head>
       <Table>
-        {plans.length > 0 ? (
-          <table>
-            <thead>
-              <tr>
-                <th>TÍTULO</th>
-                <th>DURAÇÃO</th>
-                <th>VALOR p/ MÊS</th>
-              </tr>
-            </thead>
-            <tbody>
-              {plans.map(plan => (
-                <tr key={plan.id}>
-                  <td>{plan.title}</td>
-                  <td>
-                    {plan.duration === 1 ? '1 Mês' : `${plan.duration} meses`}
-                  </td>
-                  <td>R$ {plan.price}</td>
-                  <td>
-                    <button
-                      type="button"
-                      onClick={() => handleModifyPlan(plan.id)}
-                    >
-                      editar
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => handleDeletePlan(plan.id)}
-                    >
-                      apagar
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        ) : (
+        {loading ? (
           <Center>
-            <h1>Não há planos ? Cadastre C:</h1>
+            <h1>Carregando...</h1>
           </Center>
+        ) : (
+          <>
+            {plans.length > 0 ? (
+              <table>
+                <thead>
+                  <tr>
+                    <th>TÍTULO</th>
+                    <th>DURAÇÃO</th>
+                    <th>VALOR p/ MÊS</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {plans.map(plan => (
+                    <tr key={plan.id}>
+                      <td>{plan.title}</td>
+                      <td>
+                        {plan.duration === 1
+                          ? '1 Mês'
+                          : `${plan.duration} meses`}
+                      </td>
+                      <td>R$ {plan.price}</td>
+                      <td>
+                        <button
+                          type="button"
+                          onClick={() => handleModifyPlan(plan.id)}
+                        >
+                          editar
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => handleDeletePlan(plan.id)}
+                        >
+                          apagar
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            ) : (
+              <Center>
+                <h1>Não há planos ? Cadastre C:</h1>
+              </Center>
+            )}
+          </>
         )}
       </Table>
-    </>
+    </Content>
   );
 }

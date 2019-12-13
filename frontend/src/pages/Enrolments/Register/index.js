@@ -1,11 +1,10 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as Yup from 'yup';
 import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
-import { format, addMonths } from 'date-fns';
+import { format, addMonths, addDays } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
-import { formatPrice } from '~/util/format';
-import { Head, Formcontent, Input, Button } from '~/styles/global';
+import { Head, Formcontent, Input, Button, Content } from '~/styles/global';
 import history from '~/services/history';
 import { registerEnrolmentRequest } from '~/store/modules/enrolment/actions';
 import api from '~/services/api';
@@ -16,10 +15,11 @@ import Select from '~/components/Select';
 
 export default function EnrolmentRegister() {
   const dispatch = useDispatch();
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState(addDays(new Date(), 1));
   const [plans, setPlans] = useState([]);
   const [plan, setPlan] = useState({});
-  const [initialData, setInitialData] = useState({});
+
+  const [endDate, setEndDate] = useState('dd-mm-yyyy');
 
   const schema = Yup.object().shape({
     student: Yup.object()
@@ -70,11 +70,14 @@ export default function EnrolmentRegister() {
     setPlans(response);
   }
 
-  const end_date = useMemo(() => {
-    if (!plan.duration) {
-      return '';
-    }
+  useEffect(() => {
+    loadPlans();
+  }, []);
 
+  useEffect(() => {
+    if (!plan.duration) {
+      return;
+    }
     const { duration } = plan;
     const formattedDate = format(
       addMonths(startDate, duration),
@@ -83,23 +86,9 @@ export default function EnrolmentRegister() {
         locale: pt,
       }
     );
-    return formattedDate;
+
+    setEndDate(formattedDate);
   }, [plan, startDate]);
-
-  const totalPrice = useMemo(() => {
-    if (!plan.price) return '';
-
-    return formatPrice(Number(plan.duration) * Number(plan.price));
-  }, [plan.duration, plan.price]);
-
-  useEffect(() => {
-    loadPlans();
-
-    setInitialData({
-      end_date,
-      totalPrice,
-    });
-  }, [end_date, startDate, totalPrice]);// eslint-disable-line
 
   async function handleSubmit(data) {
     dispatch(registerEnrolmentRequest(data));
@@ -110,8 +99,8 @@ export default function EnrolmentRegister() {
   }
 
   return (
-    <>
-      <Form schema={schema} onSubmit={handleSubmit} initialData={initialData}>
+    <Content>
+      <Form schema={schema} onSubmit={handleSubmit}>
         <Head>
           <h2>Cadastro de matrícula</h2>
           <div>
@@ -139,14 +128,19 @@ export default function EnrolmentRegister() {
             </span>
             <span>
               <p>DATA DE INÍCIO</p>
-              <DatePicker name="start_date" setChange={setStartDate} />
+              <DatePicker
+                name="start_date"
+                setChange={setStartDate}
+                selectedDate={startDate}
+              />
             </span>
             <span>
               <p>DATA DE TÉRMINO</p>
               <Input
+                width="198px"
                 name="end_date"
                 type="text"
-                value={end_date || 'dd-mm-aaaa'}
+                value={endDate}
                 readOnly
                 disabled
               />
@@ -155,6 +149,7 @@ export default function EnrolmentRegister() {
               <p>VALOR FINAL</p>
               <Input
                 name="totalPrice"
+                width="198px"
                 type="text"
                 value={`R$ ${plan.price * plan.duration || 0}`}
                 readOnly
@@ -164,6 +159,6 @@ export default function EnrolmentRegister() {
           </div>
         </Formcontent>
       </Form>
-    </>
+    </Content>
   );
 }

@@ -3,12 +3,17 @@ import PropTypes from 'prop-types';
 import { useField } from '@rocketseat/unform';
 import { AsyncSelectReact } from './styles';
 
-export default function InputAsyncSelect({ name, loadOptions }) {
+export default function InputAsyncSelect({
+  name,
+  loadOptions,
+  defaultValueSelected,
+  disabled,
+}) {
   const { fieldName, registerField, defaultValue } = useField(name);
   const [value, setValue] = useState(defaultValue && defaultValue);
   const ref = useRef();
 
-  useEffect(() => setValue(defaultValue), [defaultValue]);
+  useEffect(() => setValue(defaultValueSelected), [defaultValueSelected]);
 
   function parseSelectValue(selectRef) {
     return selectRef.select.state.value;
@@ -34,13 +39,14 @@ export default function InputAsyncSelect({ name, loadOptions }) {
     <>
       <AsyncSelectReact
         name={fieldName}
-        defaultValue
+        defaultValue={defaultValueSelected}
         value={value}
         ref={ref}
         loadOptions={loadOptions}
         defaultOptions
         onChange={handleChange}
         placeholder="Buscar aluno"
+        isDisabled={disabled}
         className="asyncSelectInput"
       />
     </>
@@ -49,4 +55,11 @@ export default function InputAsyncSelect({ name, loadOptions }) {
 InputAsyncSelect.propTypes = {
   name: PropTypes.string.isRequired,
   loadOptions: PropTypes.func.isRequired,
+  defaultValueSelected: PropTypes.shape(),
+  disabled: PropTypes.bool,
+};
+
+InputAsyncSelect.defaultProps = {
+  defaultValueSelected: PropTypes.null,
+  disabled: PropTypes.null,
 };

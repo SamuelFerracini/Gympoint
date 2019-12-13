@@ -2,20 +2,19 @@ import React, { useRef, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import pt from 'date-fns/locale/pt-BR';
-
 import { useField } from '@rocketseat/unform';
-import { DatePicker } from './styles';
 
 import 'react-datepicker/dist/react-datepicker.css';
+import { DatePicker } from './styles';
 
-export default function DatePickerInput({ name, setChange }) {
+export default function DatePickerInput({ name, setChange, selectedDate }) {
   const { fieldName, registerField, defaultValue } = useField(name);
   const [selected, setSelected] = useState(defaultValue && defaultValue);
   const ref = useRef();
 
   useEffect(() => {
-    setSelected(defaultValue);
-  }, [defaultValue]);
+    setSelected(selectedDate);
+  }, [selectedDate]);
 
   useEffect(() => {
     registerField({
@@ -33,23 +32,26 @@ export default function DatePickerInput({ name, setChange }) {
   }
 
   return (
-    <DatePicker
-      name={fieldName}
-      selected={selected}
-      onChange={handleChange}
-      locale={pt}
-      defaultValue
-      placeholderText="Escolha a data"
-      ref={ref}
-      dateFormat="P"
-    />
+    <>
+      <DatePicker
+        name={fieldName}
+        selected={selected}
+        onChange={handleChange}
+        locale={pt}
+        dateFormat="P"
+        placeholderText="Escolha a data"
+        ref={ref}
+      />
+    </>
   );
 }
-DatePicker.propTypes = {
+DatePickerInput.propTypes = {
   name: PropTypes.string.isRequired,
   setChange: PropTypes.func,
+  selectedDate: PropTypes.shape(),
 };
 
-DatePicker.defaultProps = {
+DatePickerInput.defaultProps = {
   setChange: PropTypes.null,
+  selectedDate: PropTypes.null,
 };

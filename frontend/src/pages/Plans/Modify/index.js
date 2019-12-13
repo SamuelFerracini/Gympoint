@@ -3,7 +3,7 @@ import * as Yup from 'yup';
 import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
-import { Head, Formcontent, Input, Button } from '~/styles/global';
+import { Head, Formcontent, Input, Button, Content } from '~/styles/global';
 import history from '~/services/history';
 import api from '~/services/api';
 import { modifyPlanRequest } from '~/store/modules/plan/actions';
@@ -43,7 +43,7 @@ export default function ModifyPlan({ match }) {
   }
 
   return (
-    <>
+    <Content>
       <Form initialData={plan} schema={schema} onSubmit={handleSubmit}>
         <Head>
           <h2>Edição de plano</h2>
@@ -66,8 +66,8 @@ export default function ModifyPlan({ match }) {
               <p>DURAÇÃO (em meses)</p>
               <Input
                 name="duration"
-                type="number"
-                width={270}
+                type="text"
+                width="270px"
                 // onChange={e => setDuration(e.target.value)}
               />
             </span>
@@ -76,8 +76,8 @@ export default function ModifyPlan({ match }) {
               <p>PREÇO MENSAL</p>
               <Input
                 name="price"
-                type="number"
-                width={270}
+                type="text"
+                width="270px"
                 // onChange={e => setPrice(e.target.value)}
               />
             </span>
@@ -86,9 +86,9 @@ export default function ModifyPlan({ match }) {
               <p>PREÇO TOTAL</p>
               <Input
                 name="totalPrice"
-                value={plan.price * plan.duration}
-                type="number"
-                width={270}
+                value={`R$${plan.price * plan.duration}`}
+                type="text"
+                width="270px"
                 readOnly
                 disabled
               />
@@ -96,7 +96,7 @@ export default function ModifyPlan({ match }) {
           </div>
         </Formcontent>
       </Form>
-    </>
+    </Content>
   );
 }
 

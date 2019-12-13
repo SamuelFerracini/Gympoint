@@ -18,6 +18,11 @@ import Enrolments from '../pages/Enrolments';
 import EnrolmentRegister from '../pages/Enrolments/Register';
 import EnrolmentModify from '../pages/Enrolments/Modify';
 
+// HelpOrders
+import HelpOrders from '../pages/HelpOrders';
+// import EnrolmentRegister from '../pages/Enrolments/Register';
+// import EnrolmentModify from '../pages/Enrolments/Modify';
+
 export default function Routes() {
   return (
     <Switch>
@@ -38,6 +43,9 @@ export default function Routes() {
         isPrivate
       />
       <Route path="/enrolments/:id" component={EnrolmentModify} isPrivate />
+
+      <Route path="/help-orders" component={HelpOrders} isPrivate />
+      {/* <Route path="/help-orders/:id" component={EnrolmentModify} isPrivate /> */}
     </Switch>
   );
 }

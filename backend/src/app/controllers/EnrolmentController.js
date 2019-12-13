@@ -104,26 +104,24 @@ class EnrolmentController {
 
   async update(req, res) {
     const schema = Yup.object().shape({
-      enrolment_id: Yup.number()
-        .integer()
-        .positive()
-        .required(),
       plan_id: Yup.number()
         .integer()
         .positive(),
       start_date: Yup.date(),
     });
 
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Validation fails.' });
-    }
-
-    const { enrolment_id, plan_id, start_date } = req.body;
+    const enrolment_id = req.params.id;
 
     const enrolment = await Enrolment.findByPk(enrolment_id);
     if (!enrolment) {
       return res.status(401).json({ error: 'Enrolment not found.' });
     }
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Validation fails.' });
+    }
+
+    const { plan_id, start_date } = req.body;
 
     const plan = await Plan.findByPk(plan_id);
     if (!plan) {
@@ -137,6 +135,37 @@ class EnrolmentController {
     const enrolmentUpdated = await enrolment.update(req.body);
 
     return res.json(enrolmentUpdated);
+  }
+
+  async show(req, res) {
+    const { id } = req.params;
+    const enrolment = await Enrolment.findOne({
+      where: { id },
+      attributes: [
+        'id',
+        ['price', 'totalPrice'],
+        'start_date',
+        'end_date',
+        'active',
+      ],
+      include: [
+        {
+          model: Student,
+          as: 'students',
+          attributes: ['id', 'name', 'email'],
+        },
+        {
+          model: Plan,
+          as: 'plans',
+          attributes: ['id', 'title', 'duration', ['price', 'monthPrice']],
+        },
+      ],
+    });
+    if (!enrolment) {
+      return res.status(400).json({ error: 'Enrolment does not exists.' });
+    }
+
+    return res.json(enrolment);
   }
 
   async destroy(req, res) {

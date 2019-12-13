@@ -3,12 +3,17 @@ import PropTypes from 'prop-types';
 import { useField } from '@rocketseat/unform';
 import { SelectOptions } from './styles';
 
-export default function ReactSelect({ name, options, setChange }) {
+export default function ReactSelect({
+  name,
+  options,
+  setChange,
+  defaultValueSelected,
+}) {
   const { fieldName, registerField, defaultValue } = useField(name);
   const [value, setValue] = useState(defaultValue && defaultValue);
   const ref = useRef();
 
-  useEffect(() => setValue(defaultValue), [defaultValue]);
+  useEffect(() => setValue(defaultValueSelected), [defaultValueSelected]);
 
   useEffect(() => {
     registerField({
@@ -30,7 +35,7 @@ export default function ReactSelect({ name, options, setChange }) {
       name={fieldName}
       options={options}
       value={value}
-      defaultValue
+      defaultValue={defaultValueSelected}
       placeholder="Selecione o plano"
       onChange={handleChange}
       ref={ref}
@@ -42,6 +47,7 @@ export default function ReactSelect({ name, options, setChange }) {
 ReactSelect.propTypes = {
   name: PropTypes.string.isRequired,
   setChange: PropTypes.func,
+  defaultValueSelected: PropTypes.shape(),
   options: PropTypes.oneOfType([
     PropTypes.object,
     PropTypes.arrayOf(PropTypes.object),
@@ -50,4 +56,5 @@ ReactSelect.propTypes = {
 
 ReactSelect.defaultProps = {
   setChange: PropTypes.null,
+  defaultValueSelected: PropTypes.null,
 };
