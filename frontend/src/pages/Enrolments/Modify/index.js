@@ -10,8 +10,8 @@ import history from '~/services/history';
 import { modifyEnrolmentRequest } from '~/store/modules/enrolment/actions';
 import api from '~/services/api';
 
-import DatePicker from '~/components/DatePicker';
-import AsyncSelect from '~/components/AsyncSelect';
+import DatePickerInput from '~/components/DatePickerInput';
+import InputAsyncSelect from '~/components/InputAsyncSelect';
 import Select from '~/components/Select';
 
 export default function ModifyEnrolment({ match }) {
@@ -144,7 +144,7 @@ export default function ModifyEnrolment({ match }) {
         <Formcontent>
           <span>
             <p>ALUNO</p>
-            <AsyncSelect
+            <InputAsyncSelect
               name="student"
               defaultValueSelected={student}
               loadOptions={loadStudents}
@@ -164,7 +164,7 @@ export default function ModifyEnrolment({ match }) {
             </span>
             <span>
               <p>DATA DE INÍCIO</p>
-              <DatePicker
+              <DatePickerInput
                 name="start_date"
                 setChange={setStartDate}
                 selectedDate={startDate}

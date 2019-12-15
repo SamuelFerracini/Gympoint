@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import api from '~/services/api';
-import { Head, Table, Button, Center, Content } from '~/styles/global';
-import history from '~/services/history';
+import api from '../../services/api';
+import { Head, Table, Button, Center, Content } from '../../styles/global';
+import history from '../../services/history';
 
 export default function Plans() {
   const [plans, setPlans] = useState([]);

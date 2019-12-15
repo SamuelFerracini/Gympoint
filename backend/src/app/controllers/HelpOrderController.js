@@ -53,9 +53,11 @@ class HelpOrderController {
       return res.status(400).json({ error: 'Student does not exists' });
     }
     const helpOrder = await HelpOrder.findAll({
-      where: { student_id: student.id, answer: null },
+      where: { student_id: student.id },
+      // where: { student_id: student.id, answer: null },
       order: [['createdAt', 'DESC']],
     });
+
     return res.json(helpOrder);
   }
 }

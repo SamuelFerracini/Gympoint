@@ -8,7 +8,7 @@ class AnswerOrderController {
     const { id } = req.params;
 
     const helpOrder = await HelpOrder.findOne({
-      id,
+      where: { id },
     });
 
     if (!helpOrder) {

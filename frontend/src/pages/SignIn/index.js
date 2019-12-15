@@ -3,9 +3,9 @@ import React from 'react';
 import { Form, Input } from '@rocketseat/unform';
 import { useDispatch, useSelector } from 'react-redux';
 import * as Yup from 'yup';
-import logo from '~/assets/logo.svg';
-import gym from '~/assets/gympoint.svg';
-import { signInRequest } from '~/store/modules/auth/actions';
+import logo from '../../assets/logo.svg';
+import gym from '../../assets/gympoint.svg';
+import { signInRequest } from '../../store/modules/auth/actions';
 
 export default function SignIn() {
   const dispatch = useDispatch();

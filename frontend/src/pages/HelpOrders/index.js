@@ -3,9 +3,9 @@ import { toast } from 'react-toastify';
 import ReactModal from 'react-modal';
 
 import * as Yup from 'yup';
-import api from '~/services/api';
+import api from '../../services/api';
 
-import { Head, Table, Center, Content } from '~/styles/global';
+import { Head, Table, Center, Content } from '../../styles/global';
 
 import {
   ModalContainer,
@@ -60,7 +60,6 @@ export default function HelpOrders() {
 
   async function handleSubmit(data) {
     const { id } = modalHelpOrder;
-    console.tron.log(`id: ${id}`);
     await api.post(`/help-orders/${id}/answer`, {
       ...data,
     });
