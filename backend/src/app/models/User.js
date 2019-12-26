@@ -7,7 +7,7 @@ class User extends Model {
       {
         name: Sequelize.STRING,
         email: Sequelize.STRING,
-        password: Sequelize.VIRTUAL, // EXISTE APENAS NO MODEL, NÃO NA BASE DE DADOS
+        password: Sequelize.VIRTUAL,
         password_hash: Sequelize.STRING,
         provider: Sequelize.BOOLEAN,
       },

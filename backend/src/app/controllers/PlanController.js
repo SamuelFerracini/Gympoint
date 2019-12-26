@@ -1,10 +1,23 @@
 import * as Yup from 'yup';
+
 import Plan from '../models/Plan';
 
 class PlanController {
   async index(req, res) {
     const plans = await Plan.findAll();
     return res.json(plans);
+  }
+
+  async show(req, res) {
+    const { id } = req.params;
+    const plan = await Plan.findOne({
+      where: { id },
+    });
+    if (!plan) {
+      return res.status(400).json({ error: 'Plan does not exists.' });
+    }
+
+    return res.json(plan);
   }
 
   async store(req, res) {
@@ -65,18 +78,6 @@ class PlanController {
       duration,
       price,
     });
-  }
-
-  async show(req, res) {
-    const { id } = req.params;
-    const plan = await Plan.findOne({
-      where: { id },
-    });
-    if (!plan) {
-      return res.status(400).json({ error: 'Plan does not exists.' });
-    }
-
-    return res.json(plan);
   }
 
   async destroy(req, res) {

@@ -1,4 +1,5 @@
 import * as Yup from 'yup';
+
 import HelpOrder from '../models/HelpOrder';
 import Student from '../models/Student';
 
@@ -18,6 +19,19 @@ class HelpOrderController {
     });
 
     return res.json(questions);
+  }
+
+  async show(req, res) {
+    const student = await Student.findByPk(req.params.id);
+    if (!student) {
+      return res.status(400).json({ error: 'Student does not exists' });
+    }
+    const helpOrder = await HelpOrder.findAll({
+      where: { student_id: student.id },
+      order: [['createdAt', 'DESC']],
+    });
+
+    return res.json(helpOrder);
   }
 
   async store(req, res) {
@@ -42,20 +56,6 @@ class HelpOrderController {
     const helpOrder = await HelpOrder.create({
       student_id: student.id,
       question,
-    });
-
-    return res.json(helpOrder);
-  }
-
-  async show(req, res) {
-    const student = await Student.findByPk(req.params.id);
-    if (!student) {
-      return res.status(400).json({ error: 'Student does not exists' });
-    }
-    const helpOrder = await HelpOrder.findAll({
-      where: { student_id: student.id },
-      // where: { student_id: student.id, answer: null },
-      order: [['createdAt', 'DESC']],
     });
 
     return res.json(helpOrder);

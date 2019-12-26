@@ -1,4 +1,5 @@
 import Bee from 'bee-queue';
+
 import EnrolmentInformation from '../app/jobs/EnrolmentInformation';
 import OrderAnswered from '../app/jobs/OrderAnswered';
 import redisConfig from '../config/redis';

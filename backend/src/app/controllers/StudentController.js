@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { Op } from 'sequelize';
+
 import Student from '../models/Student';
 
 class StudentController {
@@ -13,6 +14,18 @@ class StudentController {
       },
     });
     return res.json(students);
+  }
+
+  async show(req, res) {
+    const { id } = req.params;
+    const student = await Student.findOne({
+      where: { id },
+    });
+    if (!student) {
+      return res.status(400).json({ error: 'Student does not exists.' });
+    }
+
+    return res.json(student);
   }
 
   async store(req, res) {
@@ -87,18 +100,6 @@ class StudentController {
       weight,
       height,
     });
-  }
-
-  async show(req, res) {
-    const { id } = req.params;
-    const student = await Student.findOne({
-      where: { id },
-    });
-    if (!student) {
-      return res.status(400).json({ error: 'Student does not exists.' });
-    }
-
-    return res.json(student);
   }
 
   async destroy(req, res) {

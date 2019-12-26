@@ -9,7 +9,7 @@ export default async (req, res, next) => {
     return res.status(401).json({ error: 'Token not provided.' });
   }
 
-  const [, token] = authHeader.split(' '); // Pega apenas a hash do token, deixando o bearer de fora -> Bearer hashshahsdhasd
+  const [, token] = authHeader.split(' ');
 
   try {
     const decoded = await promisify(jwt.verify)(token, authConfig.secret);

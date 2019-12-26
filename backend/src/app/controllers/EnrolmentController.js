@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import { addMonths, parseISO, isBefore, isAfter } from 'date-fns';
+
 import Enrolment from '../models/Enrolment';
 import Plan from '../models/Plan';
 import Student from '../models/Student';
@@ -31,6 +32,37 @@ class EnrolmentController {
       ],
     });
     return res.json(enrolments);
+  }
+
+  async show(req, res) {
+    const { id } = req.params;
+    const enrolment = await Enrolment.findOne({
+      where: { id },
+      attributes: [
+        'id',
+        ['price', 'totalPrice'],
+        'start_date',
+        'end_date',
+        'active',
+      ],
+      include: [
+        {
+          model: Student,
+          as: 'students',
+          attributes: ['id', 'name', 'email'],
+        },
+        {
+          model: Plan,
+          as: 'plans',
+          attributes: ['id', 'title', 'duration', ['price', 'monthPrice']],
+        },
+      ],
+    });
+    if (!enrolment) {
+      return res.status(400).json({ error: 'Enrolment does not exists.' });
+    }
+
+    return res.json(enrolment);
   }
 
   async store(req, res) {
@@ -135,37 +167,6 @@ class EnrolmentController {
     const enrolmentUpdated = await enrolment.update(req.body);
 
     return res.json(enrolmentUpdated);
-  }
-
-  async show(req, res) {
-    const { id } = req.params;
-    const enrolment = await Enrolment.findOne({
-      where: { id },
-      attributes: [
-        'id',
-        ['price', 'totalPrice'],
-        'start_date',
-        'end_date',
-        'active',
-      ],
-      include: [
-        {
-          model: Student,
-          as: 'students',
-          attributes: ['id', 'name', 'email'],
-        },
-        {
-          model: Plan,
-          as: 'plans',
-          attributes: ['id', 'title', 'duration', ['price', 'monthPrice']],
-        },
-      ],
-    });
-    if (!enrolment) {
-      return res.status(400).json({ error: 'Enrolment does not exists.' });
-    }
-
-    return res.json(enrolment);
   }
 
   async destroy(req, res) {
