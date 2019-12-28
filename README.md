@@ -4,7 +4,7 @@
 
 ## Informações
 
-A aplicação fullstack foi desenvolvida em React no front, Nodejs no back e React Native no mobile (Android), para testa-lá você vai precisar ter instalado o [Git], [Node.js] + [Yarn]. Foram utilizados os bancos de dados [Mongo], [Postgres] e [Redis], instale as imagens através do [Docker].
+A aplicação fullstack foi desenvolvida em React no front, Nodejs no back e React Native no mobile (Android), para testa-lá você vai precisar ter instalado o Git, Node.js e Yarn. Foram utilizados os bancos de dados Mongo, Postgres e Redis, instale as imagens através do Docker.
 
 ## Iniciando o projeto
 
