@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { StatusBar } from 'react-native';
 
 import './config/ReactotronConfig';
-
 import { store, persistor } from './store';
 import App from './App';
 

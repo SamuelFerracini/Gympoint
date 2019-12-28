@@ -1,27 +1,22 @@
 import React from 'react';
 import { Switch } from 'react-router-dom';
+
 import Route from './Route';
 import SignIn from '../pages/SignIn';
 
-// Students
 import Students from '../pages/Students';
 import StudentsRegister from '../pages/Students/Register';
 import StudentsModify from '../pages/Students/Modify';
 
-// Plans
 import Plans from '../pages/Plans';
 import PlanRegister from '../pages/Plans/Register';
 import PlanModify from '../pages/Plans/Modify';
 
-// Enrolments
 import Enrolments from '../pages/Enrolments';
 import EnrolmentRegister from '../pages/Enrolments/Register';
 import EnrolmentModify from '../pages/Enrolments/Modify';
 
-// HelpOrders
 import HelpOrders from '../pages/HelpOrders';
-// import EnrolmentRegister from '../pages/Enrolments/Register';
-// import EnrolmentModify from '../pages/Enrolments/Modify';
 
 export default function Routes() {
   return (
@@ -45,7 +40,6 @@ export default function Routes() {
       <Route path="/enrolments/:id" component={EnrolmentModify} isPrivate />
 
       <Route path="/help-orders" component={HelpOrders} isPrivate />
-      {/* <Route path="/help-orders/:id" component={EnrolmentModify} isPrivate /> */}
     </Switch>
   );
 }

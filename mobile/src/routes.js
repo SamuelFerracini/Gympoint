@@ -1,8 +1,8 @@
 import React from 'react';
-
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
 import SignIn from './pages/SignIn';
 import Checkin from './pages/Checkin';
 import HelpOrder from './pages/HelpOrder';

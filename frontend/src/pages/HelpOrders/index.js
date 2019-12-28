@@ -51,7 +51,7 @@ export default function HelpOrders() {
 
   useEffect(() => {
     loadQustions();
-  }, []); // eslint-disable-line
+  }, []);
 
   function handleAnswer(suport) {
     setModalHelpOrder(suport);

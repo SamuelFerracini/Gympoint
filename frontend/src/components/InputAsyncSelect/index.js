@@ -1,6 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useField } from '@rocketseat/unform';
+
 import { AsyncSelectReact } from './styles';
 
 export default function InputAsyncSelect({

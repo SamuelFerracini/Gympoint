@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as Yup from 'yup';
+
 import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -38,6 +39,7 @@ export default function ModifyPlan({ match }) {
     data.id = plan.id;
     dispatch(modifyPlanRequest(data));
   }
+
   function handleReturn() {
     history.push('/plans');
   }

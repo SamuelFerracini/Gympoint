@@ -139,6 +139,9 @@ class EnrolmentController {
       plan_id: Yup.number()
         .integer()
         .positive(),
+      enrolment_id: Yup.number()
+        .integer()
+        .positive(),
       start_date: Yup.date(),
     });
 
@@ -156,15 +159,48 @@ class EnrolmentController {
     const { plan_id, start_date } = req.body;
 
     const plan = await Plan.findByPk(plan_id);
+
     if (!plan) {
       return res.status(401).json({ error: 'Plan not found.' });
     }
 
     if (isBefore(parseISO(start_date), new Date())) {
-      return res.status(400).json({ error: 'Past dates are not permited' });
+      return res.status(400).json({ error: 'Past dates are not permited.' });
     }
 
-    const enrolmentUpdated = await enrolment.update(req.body);
+    const { price, duration } = plan;
+
+    const totalPrice = price * duration;
+
+    await enrolment.update({
+      ...req.body,
+      price: totalPrice,
+    });
+
+    const enrolmentUpdated = await Enrolment.findOne({
+      where: { id: enrolment_id },
+      attributes: [
+        'id',
+        ['price', 'totalPrice'],
+        'start_date',
+        'end_date',
+        'active',
+      ],
+      include: [
+        {
+          model: Student,
+          as: 'students',
+          attributes: ['id', 'name', 'email'],
+        },
+        {
+          model: Plan,
+          as: 'plans',
+          attributes: ['id', 'title', 'duration', ['price', 'monthPrice']],
+        },
+      ],
+    });
+
+    console.log(enrolmentUpdated.toJSON());
 
     return res.json(enrolmentUpdated);
   }

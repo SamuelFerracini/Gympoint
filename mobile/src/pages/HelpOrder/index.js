@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import { formatRelative, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import api from '../../services/api';
 import { RectButton } from 'react-native-gesture-handler';
 
+import api from '../../services/api';
 import Background from '../../components/Background';
 import Header from '../../components/Header';
 

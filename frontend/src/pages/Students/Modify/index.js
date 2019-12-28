@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
+
 import { Head, Formcontent, Input, Button, Content } from '~/styles/global';
 import history from '~/services/history';
 import { modifyStudentRequest } from '~/store/modules/student/actions';
@@ -41,6 +42,7 @@ export default function ModifyStudents({ match }) {
     data.id = student.id;
     dispatch(modifyStudentRequest(data));
   }
+
   function handleReturn() {
     history.push('/students');
   }

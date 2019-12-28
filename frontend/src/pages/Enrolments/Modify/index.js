@@ -5,10 +5,12 @@ import { useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { format, addMonths, parseISO } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
-import { Head, Formcontent, Input, Button, Content } from '~/styles/global';
+
 import history from '~/services/history';
-import { modifyEnrolmentRequest } from '~/store/modules/enrolment/actions';
 import api from '~/services/api';
+
+import { Head, Formcontent, Input, Button, Content } from '~/styles/global';
+import { modifyEnrolmentRequest } from '~/store/modules/enrolment/actions';
 
 import DatePickerInput from '~/components/DatePickerInput';
 import InputAsyncSelect from '~/components/InputAsyncSelect';
@@ -115,12 +117,13 @@ export default function ModifyEnrolment({ match }) {
   }, [plan, startDate]);
 
   async function handleSubmit() {
-    const data = {
-      plan_id: plan.value,
-      enrolment_id: enrolment.id,
-      start_date: startDate,
-    };
-    dispatch(modifyEnrolmentRequest(data));
+    dispatch(
+      modifyEnrolmentRequest({
+        plan_id: plan.value,
+        enrolment_id: enrolment.id,
+        start_date: startDate,
+      })
+    );
   }
 
   function handleReturn() {
@@ -136,7 +139,7 @@ export default function ModifyEnrolment({ match }) {
             <Button type="button" onClick={handleReturn} color="#ccc">
               VOLTAR
             </Button>
-            <Button type="submit" color="#ee4d64">
+            <Button type="submit" onClick={handleSubmit} color="#ee4d64">
               SALVAR
             </Button>
           </div>

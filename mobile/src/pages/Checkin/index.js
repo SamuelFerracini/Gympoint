@@ -32,11 +32,11 @@ export default function Checkin() {
 
   useEffect(() => {
     async function loadCheckin() {
-      const response = await api.get(`/students/${id}/checkins`);
-      setCheckin(response.data);
+      const { data } = await api.get(`/students/${id}/checkins`);
+      setCheckin(data);
     }
     loadCheckin();
-  }, []); // checkin
+  }, []);
 
   return (
     <Background>
@@ -72,5 +72,3 @@ Checkin.navigationOptions = {
     <Icon name="event" size={20} color={tintColor} />
   ),
 };
-
-// withNavigationFocus(CheckIn);

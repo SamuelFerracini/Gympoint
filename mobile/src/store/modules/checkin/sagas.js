@@ -1,11 +1,13 @@
 import { Alert } from 'react-native';
 import { takeLatest, call, put, all } from 'redux-saga/effects';
+
 import api from '../../../services/api';
 import { checkInSuccess, checkInFailure } from './actions';
 
 export function* checkIn({ payload }) {
   try {
     const { id } = payload;
+
     const response = yield call(api.post, `/students/${id}/checkins`);
     const checkin = response.data;
     yield put(checkInSuccess(checkin));

@@ -4,10 +4,12 @@ import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
 import { format, addMonths, addDays } from 'date-fns';
 import pt from 'date-fns/locale/pt-BR';
-import { Head, Formcontent, Input, Button, Content } from '~/styles/global';
+
 import history from '~/services/history';
-import { registerEnrolmentRequest } from '~/store/modules/enrolment/actions';
 import api from '~/services/api';
+
+import { Head, Formcontent, Input, Button, Content } from '~/styles/global';
+import { registerEnrolmentRequest } from '~/store/modules/enrolment/actions';
 
 import DatePickerInput from '~/components/DatePickerInput';
 import InputAsyncSelect from '~/components/InputAsyncSelect';

@@ -2,6 +2,7 @@ import React from 'react';
 import * as Yup from 'yup';
 import { Form } from '@rocketseat/unform';
 import { useDispatch } from 'react-redux';
+
 import { Head, Formcontent, Input, Button, Content } from '~/styles/global';
 import history from '~/services/history';
 import { registerStudentRequest } from '~/store/modules/student/actions';

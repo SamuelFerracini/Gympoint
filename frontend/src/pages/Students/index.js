@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
+
 import api from '../../services/api';
 import { Head, Table, Button, Center, Content } from '../../styles/global';
 import history from '../../services/history';
+
 export default function Students() {
   const [students, setStudents] = useState([]);
   const [name, setName] = useState('');
@@ -25,6 +27,7 @@ export default function Students() {
   function handleRegister() {
     history.push('/students/register');
   }
+
   async function handleDeleteStudent(id) {
     try {
       const result = window.confirm('Certeza que deseja deletar?');
